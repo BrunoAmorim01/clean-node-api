@@ -9,9 +9,12 @@ describe('Account Mongo repository ', () => {
     await MongoHelper.disconnect()
   })
 
-  test('Should return an account when success ', async () => {
-    const sut = new AccountMongoRepository()
+  const makeSut = (): AccountMongoRepository => {
+    return new AccountMongoRepository()
+  }
 
+  test('Should return an account when success ', async () => {
+    const sut = makeSut()
     const account = await sut.add({ name: 'any_name', email: 'any_email@mail.com', password: 'any_password' })
 
     expect(account).toBeTruthy()
