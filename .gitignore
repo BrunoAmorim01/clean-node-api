@@ -3,3 +3,4 @@ dist
 coverage
 globalConfig.json
 src/main/routes/signup-routes.ts
+globalConfig.json
