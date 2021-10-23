@@ -7,7 +7,7 @@ import {
   Validation
 } from './signup-protocols'
 import { SignUpController } from './signup'
-import { badRequest, ok, serverError } from '../../helper/http-helper'
+import { badRequest, ok, serverError } from '../../helper/http/http-helper'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {

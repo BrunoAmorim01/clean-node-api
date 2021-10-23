@@ -1,5 +1,5 @@
 import { InvalidParamError } from '../../errors'
-import { badRequest, ok, serverError } from '../../helper/http-helper'
+import { badRequest, ok, serverError } from '../../helper/http/http-helper'
 import {
   HttpRequest,
   HttpResponse,
