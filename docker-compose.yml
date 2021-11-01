@@ -5,7 +5,7 @@ services:
     image: mongo:4.4
     restart: always
     volumes:
-      - ./data:/data/db
+      - ./data:/data/db:z
     ports:
       - '27017:27017'
   api:
