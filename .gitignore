@@ -3,4 +3,5 @@ coverage
 globalConfig.json
 dist
 data
+!src/data
 .vscode
