@@ -3,7 +3,7 @@ import {
   ok,
   serverError,
   unauthorized
-} from '../../helper/http/http-helper'
+} from '../../helpers/http/http-helper'
 import {
   Controller,
   HttpRequest,
@@ -13,12 +13,12 @@ import {
 } from './login-controller-protocols'
 
 export class LoginController implements Controller {
-  constructor(
+  constructor (
     private readonly authentication: Authentication,
     private readonly validation: Validation
   ) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(httpRequest.body)
       if (error) {
