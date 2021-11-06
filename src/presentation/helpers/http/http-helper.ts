@@ -24,3 +24,8 @@ export const unauthorized = (): HttpResponse => ({
   statusCode: 401,
   body: new UnauthorizedError()
 })
+
+export const noContent = (): HttpResponse => ({
+  statusCode: 204,
+  body: null
+})
