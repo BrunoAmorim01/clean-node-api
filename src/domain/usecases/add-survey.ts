@@ -1,5 +1,3 @@
-import { AccountModel } from '../models/Account'
-
 export interface AddSurveyModel{
   question: string
   answers: SurveyAnswer[]
@@ -7,7 +5,7 @@ export interface AddSurveyModel{
 }
 
 export interface SurveyAnswer{
-  image: string
+  image?: string
   answer: string
 
 }
