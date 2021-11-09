@@ -1,11 +1,10 @@
 import {
   RequiredFieldValidation,
-  EmailValidation,
+
   ValidationComposite
 } from '../../../../validation/validators'
 import { Validation } from '../../../../presentation/protocols/validation'
-import { EmailValidatorAdapter } from '../../../../infra/validators/email-validator-adapter'
-import {makeAddSurveyValidation} from'./add-survey-validation-factory''
+import { makeAddSurveyValidation } from './add-survey-validation-factory'
 
 jest.mock('../../../../validation/validators/validation-composite')
 
@@ -16,7 +15,7 @@ describe('AddSurveyValidationValidation Factory', () => {
     const validations: Validation[] = []
     for (const field of ['question', 'answers']) {
       validations.push(new RequiredFieldValidation(field))
-    }    
+    }
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
 })
