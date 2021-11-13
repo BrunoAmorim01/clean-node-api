@@ -2,12 +2,12 @@ import {
   RequiredFieldValidation,
   EmailValidation,
   ValidationComposite
-} from '../../../../validation/validators'
-import { Validation } from '../../../../presentation/protocols/validation'
-import { EmailValidatorAdapter } from '../../../../infra/validators/email-validator-adapter'
+} from '../../../../../validation/validators'
+import { Validation } from '../../../../../presentation/protocols/validation'
+import { EmailValidatorAdapter } from '../../../../../infra/validators/email-validator-adapter'
 import { makeLoginValidation } from './login-validation-factory'
 
-jest.mock('../../../../validation/validators/validation-composite')
+jest.mock('../../../../../validation/validators/validation-composite')
 
 describe('LoginValidation Factory', () => {
   test('Should call ValidationComposite with all validations', () => {
