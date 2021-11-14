@@ -18,14 +18,14 @@ describe('Survey routes', () => {
   })
 
   describe('POST /surveys', () => {
-    test('Should return 204 on Add Survey success', async () => {
+    test('Should return 403 on Add Survey success', async () => {
       await request(app)
         .post('/api/surveys')
         .send({
           question: 'Question',
           answers: [{ answer: 'Answer 1', image: 'http://image-name.com' }, { answer: 'Answer 2' }]
         })
-        .expect(204)
+        .expect(403)
     })
   })
 })

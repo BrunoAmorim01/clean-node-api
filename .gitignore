@@ -5,3 +5,4 @@ dist
 data
 !src/data
 .vscode
+src/main/config/custom-namespaces.d.ts
