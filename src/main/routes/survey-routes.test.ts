@@ -18,7 +18,7 @@ describe('Survey routes', () => {
   })
 
   describe('POST /surveys', () => {
-    test('Should return 403 on Add Survey success', async () => {
+    test('Should return 403 on Add Survey without access token', async () => {
       await request(app)
         .post('/api/surveys')
         .send({
