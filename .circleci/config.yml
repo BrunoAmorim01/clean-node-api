@@ -22,5 +22,5 @@ workflows:
           setup:                          
             - run: 
                 name:'Set env for coveralls'
-                command:"| echo repo_token:$COVERALLS_TOKEN > '.coveralls.yml'
+                command:| echo repo_token:$COVERALLS_TOKEN > '.coveralls.yml'
           run-command: 'test:coveralls'          
