@@ -19,4 +19,8 @@ workflows:
           version: '14.18'
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
+          setup:                          
+            - run: 
+                name:'Set env for coveralls'
+                command:"| echo repo_token:$COVERALLS_TOKEN > '.coveralls.yml'
           run-command: 'test:coveralls'          
