@@ -6,7 +6,7 @@ import {
 } from '../../presentation/protocols'
 import { LogErrorRepository } from '../../data/protocols/db/log/log-error-repository'
 import { serverError, ok } from '../../presentation/helpers/http/http-helper'
-import { AccountModel } from '../../domain/models/Account'
+import { AccountModel } from '../../domain/models/account'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
