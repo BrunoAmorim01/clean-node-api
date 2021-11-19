@@ -1,4 +1,5 @@
-import { MongoHelper } from '../infra/db/mongodb/helper/mongo-helper'
+import 'module-alias/register'
+import { MongoHelper } from '@/infra/db/mongodb/helper/mongo-helper'
 import env from './config/env'
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
