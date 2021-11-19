@@ -7,7 +7,8 @@ const makeSurveyData = (): AddSurveyModel => ({
   answers: [{ image: 'any_image', answer: 'any_answer' }],
   date: new Date()
 })
-interface SutTypes{
+
+type SutTypes = {
   sut: DbAddSurvey
   addSurveyRepositoryStub: AddSurveyRepository
 }

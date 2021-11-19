@@ -9,7 +9,7 @@ const makeFakeAccount = (): AccountModel => ({
   email: 'valid_email',
   password: 'hashed_password'
 })
-interface SutTypes{
+type SutTypes = {
   sut: AuthMiddleware
   loadAccountByTokenStub: LoadAccountByToken
 }
