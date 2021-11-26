@@ -3,8 +3,8 @@ import { SaveSurveyResultModel, SurveyResultModel, SaveSurveyResultRepository } 
 import MockDate from 'mockdate'
 
 const makeFakeSurveyResultData = (): SaveSurveyResultModel => ({
-  account_id: 'any_account_id',
-  survey_id: 'any_survey_id',
+  accountId: 'any_account_id',
+  surveyId: 'any_survey_id',
   answer: 'any_answer',
   date: new Date()
 })
