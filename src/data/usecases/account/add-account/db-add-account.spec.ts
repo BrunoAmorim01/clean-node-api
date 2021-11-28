@@ -1,7 +1,8 @@
+
+import { AddAccountModel } from '@/domain/usecases/account/add-account'
 import { DbAddAccount } from './db-add-account'
 import {
   Hasher,
-  AddAccountModel,
   AccountModel,
   AddAccountRepository,
   LoadAccountByEmailRepository

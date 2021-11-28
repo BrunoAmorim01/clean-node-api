@@ -1,8 +1,6 @@
 import { EmailInUseError, MissingParamError, ServerError } from '@/presentation/errors'
 import {
   AccountModel,
-  AddAccount,
-  AddAccountModel,
   HttpRequest,
   Validation,
   Authentication,
@@ -15,6 +13,7 @@ import {
   ok,
   serverError
 } from '@/presentation/helpers/http/http-helper'
+import { AddAccount, AddAccountModel } from '@/domain/usecases/account/add-account'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {

@@ -1,3 +1,5 @@
+
+import { AddAccount } from '@/domain/usecases/account/add-account'
 import { EmailInUseError } from '@/presentation/errors'
 import {
   badRequest,
@@ -9,7 +11,6 @@ import {
   HttpRequest,
   HttpResponse,
   Controller,
-  AddAccount,
   Validation,
   Authentication
 } from './signup-controller-protocols'

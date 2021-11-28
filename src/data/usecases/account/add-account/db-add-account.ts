@@ -1,7 +1,6 @@
-import { AddAccountRepository } from '../../protocols/db/account/add-account-repository'
+import { AddAccount, AddAccountModel } from '@/domain/usecases/account/add-account'
+import { AddAccountRepository } from '../../../protocols/db/account/add-account-repository'
 import {
-  AddAccount,
-  AddAccountModel,
   AccountModel,
   Hasher,
   LoadAccountByEmailRepository
