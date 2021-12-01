@@ -1,15 +1,20 @@
 import { InvalidParamError } from '@/presentation/errors'
 import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
 import { SaveSurveyResultController } from './save-survey-result-controller'
-import { HttpRequest, LoadSurveyById, SurveyModel } from './save-survey-result-controller-protocols'
+import {
+  HttpRequest,
+  LoadSurveyById,
+  SurveyModel
+} from './save-survey-result-controller-protocols'
 
-const makeFakeRequest = (): HttpRequest => (
-  {
-    params: {
-      surveyId: 'any_survey_id'
-    }
-
-  })
+const makeFakeRequest = (): HttpRequest => ({
+  params: {
+    surveyId: 'any_survey_id'
+  },
+  body: {
+    answer: 'any_answer'
+  }
+})
 
 const makeLoadSurveyById = (): LoadSurveyById => {
   class LoadSurveyByIdStub implements LoadSurveyById {
@@ -22,15 +27,15 @@ const makeLoadSurveyById = (): LoadSurveyById => {
 }
 
 const makeFakeSurvey = (): SurveyModel => ({
-
   id: 'any_id',
   question: 'any_question',
-  answers: [{
-    image: 'any_image',
-    answer: 'any_answer'
-  }],
+  answers: [
+    {
+      image: 'any_image',
+      answer: 'any_answer'
+    }
+  ],
   date: new Date()
-
 })
 
 type SutTypes = {
@@ -57,15 +62,32 @@ describe('SaveSurveyResultController', () => {
 
   test('Shoud return 403 if LoadSurveyById returns null', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
-    jest.spyOn(loadSurveyByIdStub, 'loadById').mockReturnValueOnce(Promise.resolve(null))
+    jest
+      .spyOn(loadSurveyByIdStub, 'loadById')
+      .mockReturnValueOnce(Promise.resolve(null))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('surveyId')))
   })
 
   test('Should return 500 if LoadSurveyById throws', async () => {
     const { loadSurveyByIdStub, sut } = makeSut()
-    jest.spyOn(loadSurveyByIdStub, 'loadById').mockRejectedValueOnce(Promise.reject(new Error()))
+    jest
+      .spyOn(loadSurveyByIdStub, 'loadById')
+      .mockRejectedValueOnce(Promise.reject(new Error()))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Shoud return 403 if an invalid answer is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({
+      params: {
+        surveyId: 'any_survey_id'
+      },
+      body: {
+        answer: 'wrong_answer'
+      }
+    })
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')))
   })
 })
