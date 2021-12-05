@@ -12,6 +12,7 @@ import {
   AuthenticationParams
 } from './login-controller-protocols'
 import { LoginController } from './login-controller'
+import { throwError } from '@/domain/test'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -74,9 +75,7 @@ describe('Login Controller', () => {
     const { sut, authenticationStub } = makeSut()
     jest
       .spyOn(authenticationStub, 'auth')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })
