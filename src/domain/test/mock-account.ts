@@ -4,7 +4,7 @@ import { AuthenticationParams } from '@/data/usecases/account/authentication/db-
 
 export const mockAddAccountParams = (): AddAccountParams => ({
   name: 'any_name',
-  email: 'any_email',
+  email: 'any_email@mail.com',
   password: 'any_password'
 })
 
