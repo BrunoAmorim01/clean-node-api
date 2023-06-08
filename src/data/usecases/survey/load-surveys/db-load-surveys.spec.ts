@@ -1,5 +1,5 @@
 import { DbLoadSurveys } from './db-load-surveys'
-import { LoadSurveysRepository, SurveyModel } from './db-load-surveys-protocols'
+import { LoadSurveysRepository } from './db-load-surveys-protocols'
 import MockDate from 'mockdate'
 import { mockLoadSurveysRepository } from '@/data/test'
 import { mockSurveyModels } from '@/domain/test'
@@ -44,9 +44,7 @@ describe('DbLoadSurveys', () => {
     const { sut, loadSurveysRepositoryStub } = makeSut()
     jest
       .spyOn(loadSurveysRepositoryStub, 'loadAll')
-      .mockReturnValueOnce(
-        Promise.reject(new Error())
-      )
+      .mockReturnValueOnce(Promise.reject(new Error()))
     const promise = sut.load()
     await expect(promise).rejects.toThrow()
   })

@@ -1,12 +1,17 @@
 import { SaveSurveyResultRepository } from '@/data/protocols/db/survey-result/save-survey-result-repository'
-import { SaveSurveyResultParams, SurveyResultModel } from '@/data/usecases/survey-result/save-survey-result/db-save-survey-result-protocols'
+import {
+  SaveSurveyResultParams,
+  SurveyResultModel
+} from '@/data/usecases/survey-result/save-survey-result/db-save-survey-result-protocols'
 import { ObjectId } from 'mongodb'
 
-import { MongoHelper } from '../helper/mongo-helper'
+import { MongoHelper, QueryBuilder } from '../helper'
 
 export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
-  async save (data: SaveSurveyResultParams): Promise<SurveyResultModel> {
-    const surveyResultCollection = await MongoHelper.getCollection('surveyResults')
+  async save(data: SaveSurveyResultParams): Promise<SurveyResultModel> {
+    const surveyResultCollection = await MongoHelper.getCollection(
+      'surveyResults'
+    )
     await surveyResultCollection.findOneAndUpdate(
       {
         surveyId: new ObjectId(data.surveyId),
@@ -20,19 +25,19 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
       },
       {
         upsert: true
-      })
+      }
+    )
     const surveyResult = await this.loadBySurveyId(data.surveyId)
     return surveyResult
   }
 
-  private async loadBySurveyId (surveyId: string): Promise<SurveyResultModel> {
-    const surveyResultCollection = await MongoHelper.getCollection('surveyResults')
-    const query = surveyResultCollection.aggregate([{
-      $match: {
-        surveyId: new ObjectId(surveyId)
-      }
-    }, {
-      $group: {
+  private async loadBySurveyId(surveyId: string): Promise<SurveyResultModel> {
+    const surveyResultCollection = await MongoHelper.getCollection(
+      'surveyResults'
+    )
+    const query = new QueryBuilder()
+      .match({ surveyId: new ObjectId(surveyId) })
+      .group({
         _id: 0,
         data: {
           $push: '$$ROOT'
@@ -40,24 +45,16 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
         count: {
           $sum: 1
         }
-      }
-    }, {
-      $unwind: {
-        path: '$data'
-      }
-    }, {
-      $lookup: {
+      })
+      .unwind({ path: '$data' })
+      .lookup({
         from: 'surveys',
         foreignField: '_id',
         localField: 'data.surveyId',
         as: 'survey'
-      }
-    }, {
-      $unwind: {
-        path: '$survey'
-      }
-    }, {
-      $group: {
+      })
+      .unwind({ path: '$survey' })
+      .group({
         _id: {
           surveyId: '$survey._id',
           question: '$survey.question',
@@ -76,22 +73,20 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
         count: {
           $sum: 1
         }
-      }
-    }, {
-      $unwind: {
-        path: '$_id.answer'
-      }
-    }, {
-      $addFields: {
+      })
+      .unwind({ path: '$_id.answer' })
+      .addFields({
         '_id.answer.count': '$count',
         '_id.answer.percent': {
-          $multiply: [{
-            $divide: ['$count', '$_id.total']
-          }, 100]
+          $multiply: [
+            {
+              $divide: ['$count', '$_id.total']
+            },
+            100
+          ]
         }
-      }
-    }, {
-      $group: {
+      })
+      .group({
         _id: {
           surveyId: '$_id.surveyId',
           question: '$_id.question',
@@ -100,18 +95,20 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
         answers: {
           $push: '$_id.answer'
         }
-      }
-    }, {
-      $project: {
+      })
+      .project({
         _id: 0,
         surveyId: '$_id.surveyId',
         question: '$_id.question',
         date: '$_id.date',
         answers: '$answers'
-      }
-    }])
+      })
+      .build()
 
-    const surveyResult = await query.toArray() as SurveyResultModel[]
+    const surveyResult = (await surveyResultCollection
+      .aggregate(query)
+      .toArray()) as SurveyResultModel[]
+
     return surveyResult?.length ? surveyResult[0] : null
   }
 }
