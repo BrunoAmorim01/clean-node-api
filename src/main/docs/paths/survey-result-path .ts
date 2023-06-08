@@ -1,10 +1,10 @@
 export const surveyResultPath = {
-  security: [
-    {
-      apiKeyAuth: []
-    }
-  ],
   put: {
+    security: [
+      {
+        apiKeyAuth: []
+      }
+    ],
     tags: ['Enquete'],
     summary: 'Api para criar a resposta de uma enquete',
     parameters: [
